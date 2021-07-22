@@ -44,20 +44,21 @@ function stampaUtenti() {
         $('#listaContatti').append(
             
             '<div class="accordion-item">' +
-            '<h2 class="accordion-header" id="headingTwo">' +
-            '<button id="nomeUtente" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + utenti[i].first_name + '" aria-expanded="false" aria-controls="collapseTwo">' + utenti[i].first_name + ' ' + utenti[i].last_name + '</button> </h2>'
-            + '<div id="collapse' + utenti[i].first_name + '" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">' +
+                '<h2 class="accordion-header" id="headingTwo">' +
+                    '<button id="nomeUtente" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + utenti[i].first_name + '" aria-expanded="true" aria-controls="collapseTwo">'
+                        + utenti[i].first_name + ' ' + utenti[i].last_name + '</button></h2>'
+                + '<div id="collapse' + utenti[i].first_name + '" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">' +
             '<div class="accordion-body" id="infoCard">' +
 
             // card
             '<div class="card" style="width: 18rem;" id="card'+i+'">' +
-            "<img class='card-img-top' src='"+ utenti[i].avatar +"' alt=''>" +
-            '<div class="card-body">' +
-            '<h5 class="card-title">' + utenti[i].first_name + '-' + utenti[i].last_name + '</h5>' +
-            '<p class="card-text">' + utenti[i].email + '</p>' +
-            '<button id="btnMod" class="btn btn-warning"> <i class="fas fa-pen"></i></button>' +
-            '<button id="btnDel" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></button>' +
-            '</div>' +
+                "<img class='card-img-top' src='"+ utenti[i].avatar +"' alt=''>" +
+                '<div class="card-body">' +
+                    '<h5 class="card-title">' + utenti[i].first_name + '-' + utenti[i].last_name + '</h5>' +
+                    '<p class="card-text">' + utenti[i].email + '</p>' +
+                    '<button id="btnMod" class="btn btn-warning"> <i class="fas fa-pen"></i></button>' +
+                    '<button id="btnDel" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></button>' +
+                '</div>' +
             '</div>' +
 
             '</div></div>');
@@ -68,7 +69,7 @@ function stampaUtenti() {
 }
 
 function elimina(){
-    console.log("sono in elimina")
+    // console.log("sono in elimina")
     $(this).parent()
    .parent()
    .parent()
@@ -86,6 +87,7 @@ function getIndexByEmail(emaildellaltro) {
             return i;
         }
     }
+    console.log("email non trovata")
     return -1;
 }
 
@@ -93,7 +95,7 @@ function modifica(){
     // console.log($(this).parent().parent().attr("id"));
     $("#"+$(this).parent().parent().attr("id")).find("#btnDel").click();
     
-    console.log(getIndexByEmail($(this).parent().find('p').html()))
+    // console.log(getIndexByEmail($(this).parent().find('p').html()))
     delete utenti[getIndexByEmail($(this).parent().find('p').html())]
     utenti.sort();
     utenti.pop();
@@ -151,8 +153,8 @@ function modifica(){
                         $('#surname').val("");
                         $('#email').val("");
                         nuovoUtente=response;
-                        console.log(utenti);
-                        console.log(nuovoUtente);
+                        // console.log(utenti);
+                        // console.log(nuovoUtente);
                         utenti.push(nuovoUtente);
                         
                         stampaUtenti();
