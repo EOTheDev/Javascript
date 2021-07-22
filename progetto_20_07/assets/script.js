@@ -41,7 +41,9 @@ function stampaUtenti() {
     $("#listaContatti").empty();
     for (let i = 0; i < utenti.length; i++) {
         // $('#listaContatti').children().remove();
-        $('#listaContatti').append('<div class="accordion-item">' +
+        $('#listaContatti').append(
+            
+            '<div class="accordion-item">' +
             '<h2 class="accordion-header" id="headingTwo">' +
             '<button id="nomeUtente" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + utenti[i].first_name + '" aria-expanded="false" aria-controls="collapseTwo">' + utenti[i].first_name + ' ' + utenti[i].last_name + '</button> </h2>'
             + '<div id="collapse' + utenti[i].first_name + '" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">' +
@@ -67,7 +69,11 @@ function stampaUtenti() {
 
 function elimina(){
     console.log("sono in elimina")
-    $(this).parent().parent().parent().parent().parent().remove();
+    $(this).parent()
+   .parent()
+   .parent()
+   .parent()
+    .parent().remove();
 }
 
 
@@ -84,55 +90,74 @@ function getIndexByEmail(emaildellaltro) {
 }
 
 function modifica(){
-    $("#btnDel").click();
-    console.log(getIndexByEmail($('#email').val($(this).parent().find('p').html())))
-    delete utenti[getIndexByEmail($('#email').val($(this).parent().find('p').html()))]
+    // console.log($(this).parent().parent().attr("id"));
+    $("#"+$(this).parent().parent().attr("id")).find("#btnDel").click();
+    
+    console.log(getIndexByEmail($(this).parent().find('p').html()))
+    delete utenti[getIndexByEmail($(this).parent().find('p').html())]
     utenti.sort();
     utenti.pop();
     // $(this).parent().parent().parent().parent().parent().remove();
-    //prendo id nell'array
+    
     
     $('#name').val($(this).parent().children(0).html().split('-')[0]);
     // $('#name').val($(this).parent().find('p').html());
     $('#surname').val($(this).parent().children(0).html().split('-')[1]);
     $('#email').val($(this).parent().find('p').html());
     // console.log($(this).parent().find('p').html());
-    var random=Math.ceil(10*(Math.random()));
-    $('#btn').on('click', function () {
-        $.ajax({
-            url: "https://reqres.in/api/users",
-            type: "POST",
-            data: {
-                first_name: $('#name').val(),
-                last_name: $('#surname').val(),
-                email: $('#email').val(),
-                avatar: 'https://reqres.in/img/faces/'+random+'-image.jpg'
-            },
-            success: function(response){
-                nuovoUtente=response;
-                console.log(nuovoUtente);
-                utenti.push(nuovoUtente);
-                
-                stampaUtenti();
-            }
-        })
-        });
-
-
-
-
-
-
-
+    
+    
+    
+    
+    
+    
+    
+    
     // $(document).on("click", "#btn", $.ajax({
-    //                                     url: 'https://reqres.in/api/users',
-    //                                     type: 'POST',
-    //                                     dataType: 'json',
-    //                                     data: {
-    //                                         nome: $('#name').val(),
-    //                                         cognome: $('#surname').val(),
-    //                                         email: $('#email').val()
-                                        
-    //                                     }
-    //                                 }));                              
-}
+        //                                     url: 'https://reqres.in/api/users',
+        //                                     type: 'POST',
+        //                                     dataType: 'json',
+        //                                     data: {
+            //                                         nome: $('#name').val(),
+            //                                         cognome: $('#surname').val(),
+            //                                         email: $('#email').val()
+            
+            //                                     }
+            //                                 }));                              
+            
+        }
+        
+        
+        
+        
+        
+        $('#btn').on('click', function () {
+            if (($('#name').val()=="")||($('#email').val()=="")||($('#surname').val()=="")) {
+                
+            } else {
+                
+                $.ajax({
+                    url: "https://reqres.in/api/users",
+                    type: "POST",
+                    data: {
+                        first_name: $('#name').val(),
+                        last_name: $('#surname').val(),
+                        email: $('#email').val(),
+                        id: (Number)(1+utenti.length),
+                        avatar: 'https://reqres.in/img/faces/'+(Number)(Math.ceil(10*(Math.random())))+'-image.jpg'
+                    },
+                    success: function(response){
+                        $('#name').val("");
+                        $('#surname').val("");
+                        $('#email').val("");
+                        nuovoUtente=response;
+                        console.log(utenti);
+                        console.log(nuovoUtente);
+                        utenti.push(nuovoUtente);
+                        
+                        stampaUtenti();
+                    }
+                })
+            }
+        });
+ 
