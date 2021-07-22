@@ -8,11 +8,17 @@ $.ajax({
     dataType:'json',
     success: function(dati){
         // console.log(dati);
-
+        
         utenti = dati.data;
 
-        stampaUtenti();
 
+        // for (let i = 0; i < utenti.length; i++) {
+        //     console.log(i);
+        //     console.log(utenti[i]);
+        // }
+        
+        stampaUtenti();
+        
     },
     error:function(textStatus){
         if(textStatus.status == 404){
@@ -22,10 +28,15 @@ $.ajax({
             console.log('qualcosa è andato storto');
         }
     },
-
+    
 })
 
+
+
+
+
 $(document).on('click','#btnDel',elimina);
+
 function stampaUtenti() {
     $("#listaContatti").empty();
     for (let i = 0; i < utenti.length; i++) {
@@ -37,7 +48,7 @@ function stampaUtenti() {
             '<div class="accordion-body" id="infoCard">' +
 
             // card
-            '<div class="card" style="width: 18rem;">' +
+            '<div class="card" style="width: 18rem;" id="card'+i+'">' +
             "<img class='card-img-top' src='"+ utenti[i].avatar +"' alt=''>" +
             '<div class="card-body">' +
             '<h5 class="card-title">' + utenti[i].first_name + '-' + utenti[i].last_name + '</h5>' +
@@ -55,15 +66,32 @@ function stampaUtenti() {
 }
 
 function elimina(){
+    console.log("sono in elimina")
     $(this).parent().parent().parent().parent().parent().remove();
 }
 
+
 $(document).on('click','#btnMod',modifica);
 
-
 var nuovoUtente;
+function getIndexByEmail(emaildellaltro) {
+    for (let i = 0; i < utenti.length; i++) {
+        if (utenti[i].email==emaildellaltro) {
+            return i;
+        }
+    }
+    return -1;
+}
 
 function modifica(){
+    $("#btnDel").click();
+    console.log(getIndexByEmail($('#email').val($(this).parent().find('p').html())))
+    delete utenti[getIndexByEmail($('#email').val($(this).parent().find('p').html()))]
+    utenti.sort();
+    utenti.pop();
+    // $(this).parent().parent().parent().parent().parent().remove();
+    //prendo id nell'array
+    
     $('#name').val($(this).parent().children(0).html().split('-')[0]);
     // $('#name').val($(this).parent().find('p').html());
     $('#surname').val($(this).parent().children(0).html().split('-')[1]);
@@ -78,10 +106,11 @@ function modifica(){
                 first_name: $('#name').val(),
                 last_name: $('#surname').val(),
                 email: $('#email').val(),
-                avatar: 'https://reqres.in/img/faces/'+random+'-image.jpg">'
+                avatar: 'https://reqres.in/img/faces/'+random+'-image.jpg'
             },
             success: function(response){
                 nuovoUtente=response;
+                console.log(nuovoUtente);
                 utenti.push(nuovoUtente);
                 
                 stampaUtenti();
