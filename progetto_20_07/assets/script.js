@@ -102,6 +102,19 @@ function getIndexByEmail(emaildellaltro) {
     console.log("email non trovata")
     return -1;
 }
+var utenteBU;
+$("#listaContatti").on('focus', function () {
+    console.log("sono in blur");
+                    $('#name').val("");
+                    $('#surname').val("");
+                    $('#email').val("");
+                    
+                    console.log(utenti);
+                    console.log(utenteBU);
+                    utenti.push(utenteBU);
+                    
+                    stampaUtenti();
+})
 
 function modifica(){
     //questo serve per aprire la tendina
@@ -124,13 +137,12 @@ function modifica(){
     $('#surname').val($(this).parent().parent().children(0).html().split('-')[1]);
     $('#email').val($(this).parent().parent().find('p').html());
     //backup utente
-    var utenteBU={
+     utenteBU={
         first_name: $('#name').val(),
         last_name:$('#surname').val(),
         email:$('#email').val()
     }
-    // $("#insAcc").on()
-    
+  
     
     
     
