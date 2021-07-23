@@ -90,7 +90,7 @@ function elimina(){
 }
 
 
-$(document).on('click','#btnMod',modifica);
+// $(document).on('click','#btnMod',modifica);
 
 var nuovoUtente;
 function getIndexByEmail(emaildellaltro) {
@@ -102,96 +102,145 @@ function getIndexByEmail(emaildellaltro) {
     console.log("email non trovata")
     return -1;
 }
-var utenteBU;
-$("#listaContatti").on('focus', function () {
-    console.log("sono in blur");
-                    $('#name').val("");
-                    $('#surname').val("");
-                    $('#email').val("");
+// var utenteBU;
+// $("#insAcc").on('mouseout', function () {
+//     console.log("sono in blur");
+//                     $('#name').val("");
+//                     $('#surname').val("");
+//                     $('#email').val("");
                     
-                    console.log(utenti);
-                    console.log(utenteBU);
-                    utenti.push(utenteBU);
+//                     console.log(utenti);
+//                     console.log(utenteBU);
+//                     utenti.push(utenteBU);
                     
-                    stampaUtenti();
-})
+//                     stampaUtenti();
+// })
 
-function modifica(){
+
+$(document).on('click','#btnMod',controllo);
+var controllo=0;
+function controllo(){
+    if (($('#name').val()!="")||($('#email').val()!="")||($('#surname').val()!="")){
+        // alert('diverso')
+        
+        console.log(controllo);
+        if (controllo<1) {
+            ++controllo;
+            $("#formBody").append('<div class="alert alert-primary" role="alert" id="alertControllo">Attenzione stai modificando <a href="#" class="alert-link">questo utente</a>. </div>') 
+        }
+    }else{
+        modifica($(this))
+        
+    }
+    
+}
+function modifica(bottone){
+   
     //questo serve per aprire la tendina
     if ($("#insAcc").hasClass("collapsed")) {
         $("#insAcc").click();
-    } else {
-        //nulla
-    }
-    
+    }     
     
     //questo elimina l'utente
-    $("#"+$(this).parent()
+    $("#"+bottone.parent()
     .parent()
     .parent()
     .attr("id")).find("#btnDel").click();
     
  
    // copio i valori
-    $('#name').val($(this).parent().parent().children(0).html().split('-')[0]);
-    $('#surname').val($(this).parent().parent().children(0).html().split('-')[1]);
-    $('#email').val($(this).parent().parent().find('p').html());
-    //backup utente
-     utenteBU={
-        first_name: $('#name').val(),
-        last_name:$('#surname').val(),
-        email:$('#email').val()
-    }
-  
-    
-    
-    
+    $('#name').val(bottone.parent().parent().children(0).html().split('-')[0]);
+    $('#surname').val(bottone.parent().parent().children(0).html().split('-')[1]);
+    $('#email').val(bottone.parent().parent().find('p').html());
     
 
-        }
+}
+
+
+
+
+// function modifica(){
+//     //questo serve per aprire la tendina
+//     if ($("#insAcc").hasClass("collapsed")) {
+//         $("#insAcc").click();
+//     } else {
+//         //nulla
+//     }
+    
+//     //questo elimina l'utente
+//     $("#"+$(this).parent()
+//     .parent()
+//     .parent()
+//     .attr("id")).find("#btnDel").click();
+    
+    
+//     // copio i valori
+//     $('#name').val($(this).parent().parent().children(0).html().split('-')[0]);
+//     $('#surname').val($(this).parent().parent().children(0).html().split('-')[1]);
+//     $('#email').val($(this).parent().parent().find('p').html());
+//     //backup utente
+//     utenteBU={
+//         first_name: $('#name').val(),
+//         last_name:$('#surname').val(),
+//         email:$('#email').val()
+    
+//     }
+//     if (($('#name').val()==utenteBU.first_name)||($('#email').val()==utenteBU.last_name)||($('#surname').val()==utenteBU.email)) {
         
-        $('#form').on('keyup', function () {
-            if (($('#name').val()=="")||($('#email').val()=="")||($('#surname').val()=="")) {
-                if (!($(this).children().find("#btn").hasClass("btn-danger"))) {
-                    $(this).children().find("#btn").attr("class","btn btn-danger my-4")
-                }
-            } else {
-                if (!($(this).children().find("#btn").hasClass("btn-success"))) {
-                    $(this).children().find("#btn").attr("class","btn btn-success my-4")
-                }
-            }
-        });
+//     } else {
+      
         
         
         
-        $('#btn').on('click', function () {
-            if (($('#name').val()=="")||($('#email').val()=="")||($('#surname').val()=="")) {
-                //controllo se sbagliato nulla
-            } else {
-                
-                $.ajax({
-                    url: "https://reqres.in/api/users",
-                    type: "POST",
-                    data: {
-                        first_name: $('#name').val(),
-                        last_name: $('#surname').val(),
-                        email: $('#email').val(),
-                        id: (Number)(2+utenti.length),
-                        avatar: 'https://reqres.in/img/faces/'+(Number)(Math.ceil(10*(Math.random())))+'-image.jpg'
-                    },
-                    success: function(response){
-                        $('#name').val("");
-                        $('#surname').val("");
-                        $('#email').val("");
-                        nuovoUtente=response;
-                         console.log(utenti);
-                        // console.log(nuovoUtente);
-                        utenti.push(nuovoUtente);
-                        
-                        stampaUtenti();
+        
+    
+//             }
+            
+            $('#form').on('keyup', function () {
+                if (($('#name').val()=="")||($('#email').val()=="")||($('#surname').val()=="")) {
+                    if (!($(this).children().find("#btn").hasClass("btn-danger"))) {
+                        $(this).children().find("#btn").attr("class","btn btn-danger my-4")
                     }
-                    
-                })
-            }
-        });
- 
+                } else {
+                    if (!($(this).children().find("#btn").hasClass("btn-success"))) {
+                        $(this).children().find("#btn").attr("class","btn btn-success my-4")
+                    }
+                }
+            });
+            
+            
+            
+            $('#btn').on('click', function () {
+
+                if (($('#name').val()=="")||($('#email').val()=="")||($('#surname').val()=="")) {
+                    //controllo se sbagliato nulla
+                } else {
+                     controllo=0;
+                    $("#alertControllo").remove()
+                    $.ajax({
+                        url: "https://reqres.in/api/users",
+                        type: "POST",
+                        data: {
+                            first_name: $('#name').val(),
+                            last_name: $('#surname').val(),
+                            email: $('#email').val(),
+                            id: (Number)(2+utenti.length),
+                            avatar: 'https://reqres.in/img/faces/'+(Number)(Math.ceil(10*(Math.random())))+'-image.jpg'
+                        },
+                        success: function(response){
+                            $('#name').val("");
+                            $('#surname').val("");
+                            $('#email').val("");
+                            nuovoUtente=response;
+                             console.log(utenti);
+                            // console.log(nuovoUtente);
+                            utenti.push(nuovoUtente);
+                            
+                            stampaUtenti();
+                        }
+                        
+                    })
+                }
+            });
+     
+    
