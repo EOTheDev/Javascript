@@ -45,19 +45,21 @@ function stampaUtenti() {
             
             '<div class="accordion-item">' +
                 '<h2 class="accordion-header" id="headingTwo">' +
-                    '<button id="nomeUtente" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + utenti[i].first_name + '" aria-expanded="true" aria-controls="collapseTwo">'
+                    '<button id="nomeUtente" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + utenti[i].first_name +i+ '" aria-expanded="true" aria-controls="collapseTwo">'
                         + utenti[i].first_name + ' ' + utenti[i].last_name + '</button></h2>'
-                + '<div id="collapse' + utenti[i].first_name + '" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">' +
-            '<div class="accordion-body" id="infoCard">' +
+                + '<div id="collapse' + utenti[i].first_name+i + '" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#listaContatti">' +
+            '<div class="accordion-body centered" id="infoCard">' +
 
             // card
             '<div class="card" style="width: 18rem;" id="card'+i+'">' +
                 "<img class='card-img-top' src='"+ utenti[i].avatar +"' alt=''>" +
-                '<div class="card-body">' +
+                '<div class="card-body text-centered">' +
                     '<h5 class="card-title">' + utenti[i].first_name + '-' + utenti[i].last_name + '</h5>' +
-                    '<p class="card-text">' + utenti[i].email + '</p>' +
-                    '<button id="btnMod" class="btn btn-warning"> <i class="fas fa-pen"></i></button>' +
-                    '<button id="btnDel" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></button>' +
+                    '<p class="card-text">' + utenti[i].email + '</p>'
+                    +"<div class='centered'>"+
+                        '<button id="btnMod" class="btn btn-warning"> <i class="fas fa-pen"></i></button>' +
+                        '<button id="btnDel" class="btn btn-danger"> <i class="fas fa-trash-alt"></i></button>' +
+                    "</div>"+
                 '</div>' +
             '</div>' +
 
@@ -70,16 +72,17 @@ function stampaUtenti() {
 
 function elimina(){
     // console.log("sono in elimina")
-    delete utenti[getIndexByEmail($(this).parent().find('p').html())]
+    delete utenti[getIndexByEmail($(this).parent().parent().find('p').html())]
     utenti.sort();
     utenti.pop();
     
     
     
     $(this).parent()
-   .parent()
-   .parent()
-   .parent()
+    .parent()
+    .parent()
+    .parent()
+    .parent()
     .parent().remove();
     
 
@@ -90,7 +93,7 @@ function elimina(){
 $(document).on('click','#btnMod',modifica);
 
 var nuovoUtente;
-function getIndexByEmail(emaildellaltro="") {
+function getIndexByEmail(emaildellaltro) {
     for (let i = 0; i < utenti.length; i++) {
         if (utenti[i].email==emaildellaltro) {
             return i;
@@ -101,50 +104,57 @@ function getIndexByEmail(emaildellaltro="") {
 }
 
 function modifica(){
-    //questo serve per eliminare
-    console.log(getIndexByEmail($(this).parent().find('p').html()))
-    $("#"+$(this).parent().parent().attr("id")).find("#btnDel").click();
-    
-    // delete utenti[getIndexByEmail($(this).parent().find('p').html())]
-    // utenti.sort();
-    // utenti.pop();
-    // $(this).parent().parent().parent().parent().parent().remove();
+    //questo serve per aprire la tendina
+    if ($("#insAcc").hasClass("collapsed")) {
+        $("#insAcc").click();
+    } else {
+        //nulla
+    }
     
     
-    $('#name').val($(this).parent().children(0).html().split('-')[0]);
-    // $('#name').val($(this).parent().find('p').html());
-    $('#surname').val($(this).parent().children(0).html().split('-')[1]);
-    $('#email').val($(this).parent().find('p').html());
-    // console.log($(this).parent().find('p').html());
+    //questo elimina l'utente
+    $("#"+$(this).parent()
+    .parent()
+    .parent()
+    .attr("id")).find("#btnDel").click();
+    
+ 
+   // copio i valori
+    $('#name').val($(this).parent().parent().children(0).html().split('-')[0]);
+    $('#surname').val($(this).parent().parent().children(0).html().split('-')[1]);
+    $('#email').val($(this).parent().parent().find('p').html());
+    //backup utente
+    var utenteBU={
+        first_name: $('#name').val(),
+        last_name:$('#surname').val(),
+        email:$('#email').val()
+    }
+    // $("#insAcc").on()
     
     
     
     
     
-    
-    
-    
-    // $(document).on("click", "#btn", $.ajax({
-        //                                     url: 'https://reqres.in/api/users',
-        //                                     type: 'POST',
-        //                                     dataType: 'json',
-        //                                     data: {
-            //                                         nome: $('#name').val(),
-            //                                         cognome: $('#surname').val(),
-            //                                         email: $('#email').val()
-            
-            //                                     }
-            //                                 }));                              
-            
+
         }
         
-        
+        $('#form').on('keyup', function () {
+            if (($('#name').val()=="")||($('#email').val()=="")||($('#surname').val()=="")) {
+                if (!($(this).children().find("#btn").hasClass("btn-danger"))) {
+                    $(this).children().find("#btn").attr("class","btn btn-danger my-4")
+                }
+            } else {
+                if (!($(this).children().find("#btn").hasClass("btn-success"))) {
+                    $(this).children().find("#btn").attr("class","btn btn-success my-4")
+                }
+            }
+        });
         
         
         
         $('#btn').on('click', function () {
             if (($('#name').val()=="")||($('#email').val()=="")||($('#surname').val()=="")) {
-                
+                //controllo se sbagliato nulla
             } else {
                 
                 $.ajax({
@@ -168,6 +178,7 @@ function modifica(){
                         
                         stampaUtenti();
                     }
+                    
                 })
             }
         });

@@ -33,31 +33,41 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6 my-5">
-                <div class="accordion " id="listaContatti">
+            
+                <div class="accordion col-md-6 my-5" id="listaContatti">
+                </div>
       
             
                    
-                  </div>
-            </div>
+            
 
 
             
                 <!-- form -->
-            <div class="col-md-6" id="form">
-                <!-- <div class="col-4"> -->
-                    <h3>Nome:</h3>
-                    <input type="text" class="form-control" id="name" placeholder="Nome" required>
-                    <h3>Cognome:</h3>
-                    <input type="text" class="form-control" id="surname" placeholder="Cognome" required>
-                    <!-- <h3>Numero:</h3>
-                    <input type="text" class="form-control" id="number" placeholder="Numero"> -->
-                    <h3>Email:</h3>
-                    <input type="email" class="form-control" id="email" placeholder="Email" required>
-                    <button id="btn" class="btn btn-primary my-4"> Inserisci </button>
-                <!-- </div> -->
+            <div class="accordion col-md-6 my-5" id="form">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button id="insAcc" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFormAcc" aria-expanded="true" aria-controls="collapseTwo"> 
+                        Inserisci
+                    </button>
+                </h2>
+      
+                <div id="collapseFormAcc" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#form">
+
+                    <div class="accordion-body" id="formBody">
+                        <!-- <div class="col-4"> -->
+                            <h3>Nome:</h3>
+                            <input type="text" class="form-control" id="name" placeholder="Nome" required>
+                            <h3>Cognome:</h3>
+                            <input type="text" class="form-control" id="surname" placeholder="Cognome" required>
+                            <!-- <h3>Numero:</h3>
+                            <input type="text" class="form-control" id="number" placeholder="Numero"> -->
+                            <h3>Email:</h3>
+                            <input type="email" class="form-control" id="email" placeholder="Email" required>
+                            <button id="btn" class="btn btn-primary my-4"> Inserisci </button>
+                        <!-- </div> -->
+                    </div>
+                </div>
             </div>
-            
         </div>
     </div>
     
