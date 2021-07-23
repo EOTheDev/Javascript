@@ -70,18 +70,27 @@ function stampaUtenti() {
 
 function elimina(){
     // console.log("sono in elimina")
+    delete utenti[getIndexByEmail($(this).parent().find('p').html())]
+    utenti.sort();
+    utenti.pop();
+    
+    
+    
     $(this).parent()
    .parent()
    .parent()
    .parent()
     .parent().remove();
+    
+
+    
 }
 
 
 $(document).on('click','#btnMod',modifica);
 
 var nuovoUtente;
-function getIndexByEmail(emaildellaltro) {
+function getIndexByEmail(emaildellaltro="") {
     for (let i = 0; i < utenti.length; i++) {
         if (utenti[i].email==emaildellaltro) {
             return i;
@@ -92,13 +101,13 @@ function getIndexByEmail(emaildellaltro) {
 }
 
 function modifica(){
-    // console.log($(this).parent().parent().attr("id"));
+    //questo serve per eliminare
+    console.log(getIndexByEmail($(this).parent().find('p').html()))
     $("#"+$(this).parent().parent().attr("id")).find("#btnDel").click();
     
-    // console.log(getIndexByEmail($(this).parent().find('p').html()))
-    delete utenti[getIndexByEmail($(this).parent().find('p').html())]
-    utenti.sort();
-    utenti.pop();
+    // delete utenti[getIndexByEmail($(this).parent().find('p').html())]
+    // utenti.sort();
+    // utenti.pop();
     // $(this).parent().parent().parent().parent().parent().remove();
     
     
@@ -145,7 +154,7 @@ function modifica(){
                         first_name: $('#name').val(),
                         last_name: $('#surname').val(),
                         email: $('#email').val(),
-                        id: (Number)(1+utenti.length),
+                        id: (Number)(2+utenti.length),
                         avatar: 'https://reqres.in/img/faces/'+(Number)(Math.ceil(10*(Math.random())))+'-image.jpg'
                     },
                     success: function(response){
@@ -153,7 +162,7 @@ function modifica(){
                         $('#surname').val("");
                         $('#email').val("");
                         nuovoUtente=response;
-                        // console.log(utenti);
+                         console.log(utenti);
                         // console.log(nuovoUtente);
                         utenti.push(nuovoUtente);
                         
